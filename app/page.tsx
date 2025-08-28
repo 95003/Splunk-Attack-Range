@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-
+import type {} from "node";
 export default function Home() {
   const [server, setServer] = useState("");
   const [attackType, setAttackType] = useState("");
@@ -13,14 +13,15 @@ export default function Home() {
     try {
       console.log("Sending:", { instance_id: server, attack_id: attackType });
 
-      const res = await fetch(
-        process.env.NEXT_PUBLIC_API_URL as string, // ✅ use env
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ server_type: server, attack_id: attackType }),
-        }
-      );
+      const apiUrl =
+        (typeof window !== "undefined"
+          ? (process.env.NEXT_PUBLIC_API_URL as string)
+          : "") || "";
+      const res = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ server_type: server, attack_id: attackType }),
+      });
 
       const textResponse = await res.text();
       console.log("Response:", textResponse);
