@@ -7,7 +7,6 @@ export default function Home() {
   const [status, setStatus] = useState("");
 
   const serverOptions = ["windows", "linux", "others"];
-
   const attackOptions = ["T1071.001", "T1059.003", "T1027.002", "T1003.006"];
 
   const handleSubmit = async () => {
@@ -15,7 +14,7 @@ export default function Home() {
       console.log("Sending:", { instance_id: server, attack_id: attackType });
 
       const res = await fetch(
-        "https://gox1epxmg0.execute-api.sa-east-1.amazonaws.com/attack-range",
+        process.env.NEXT_PUBLIC_API_URL as string, // ✅ use env
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
